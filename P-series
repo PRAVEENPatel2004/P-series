@@ -1,0 +1,14 @@
+from pydub import AudioSegment
+import numpy as np
+
+def generate_music_tone(frequency, duration_ms, volume=0.5):
+    t = np.linspace(0, duration_ms / 1000, int(duration_ms * 44100))
+    wave = volume * np.sin(2 * np.pi * frequency * t)
+
+    # Convert to 16-bit PCM format
+    audio_data = (wave * 32767).astype(np.int16)
+    return AudioSegment(audio_data.tobytes(), frame_rate=44100, sample_width=2, channels=1)
+
+# Example: Generating a simple tone
+tone = generate_music_tone(440, 2000)  # 440 Hz for 2 seconds
+tone.export("attractive_tone.wav", format="wav")
